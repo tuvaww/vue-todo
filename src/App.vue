@@ -1,30 +1,31 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <HeaderLayout />
   <router-view />
+  <FooterLayout />
 </template>
 
+<script lang="ts">
+import Vue, { defineComponent } from "vue";
+import HeaderLayout from "./layouts/HeaderLayout.vue";
+import FooterLayout from "./layouts/FooterLayout.vue";
+
+export default defineComponent({
+  components: {
+    HeaderLayout,
+    FooterLayout,
+  },
+});
+</script>
 <style>
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("./assets/galaxy6.jpeg");
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  height: 100vh;
 }
 </style>
