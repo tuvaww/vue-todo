@@ -16,12 +16,19 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style lang="scss">
+@import "./styles/_variables.scss";
 body {
   margin: 0;
   padding: 0;
-  background-image: url("./assets/galaxy6.jpeg");
+  background-image: url("./assets/planet.jpeg");
+  background-repeat: no-repeat;
+  background-color: black;
+  color: $headerColor;
+  /*   color: #dbd8e3;
+ */
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -28,6 +28,17 @@ export default defineComponent({
       id = Date.now().toString(36) + Math.random().toString(36).substr(2);
     };
 
+    const translateDate = (d: string) => {
+      let newDate = new Date(d);
+      let translateDate = newDate.toLocaleDateString("EN-US", {
+        month: "long",
+        day: "2-digit",
+      });
+
+      console.log("translate", translateDate);
+      return translateDate;
+    };
+
     const handleSubmit = () => {
       uid();
       const createdTodo: ITodo = {
@@ -38,8 +49,10 @@ export default defineComponent({
       };
 
       createdTodo.title = title.value;
-      createdTodo.needToBeDoneAt = needToBeDoneAt.value;
+      // createdTodo.needToBeDoneAt = needToBeDoneAt.value;
       createdTodo.id = id;
+      createdTodo.needToBeDoneAt = translateDate(needToBeDoneAt.value);
+      console.log("created", createdTodo);
 
       setTodo(createdTodo);
     };
