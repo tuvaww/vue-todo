@@ -44,14 +44,14 @@ export default defineComponent({
       const createdTodo: ITodo = {
         id: "",
         title: "",
-        needToBeDoneAt: "",
+        date: "",
         isDone: false,
       };
 
       createdTodo.title = title.value;
       // createdTodo.needToBeDoneAt = needToBeDoneAt.value;
       createdTodo.id = id;
-      createdTodo.needToBeDoneAt = translateDate(needToBeDoneAt.value);
+      createdTodo.date = translateDate(needToBeDoneAt.value);
       console.log("created", createdTodo);
 
       setTodo(createdTodo);

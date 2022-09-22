@@ -1,7 +1,7 @@
 import { ITodo } from "@/models/ITodo";
 import { ref } from "vue";
 
-const url = "http://localhost:3000/todos";
+const url = "http://localhost:3000/";
 
 export const getTodos = () => {
   const todoList = ref<ITodo[]>([]);
@@ -13,6 +13,8 @@ export const getTodos = () => {
         throw Error("no data availble");
       }
       todoList.value = await res.json();
+      console.log("todolist i fetch", todoList.value);
+
       return todoList;
     } catch (err) {
       console.log(err);

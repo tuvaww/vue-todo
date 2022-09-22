@@ -6,20 +6,18 @@
       <p class="sortLinks">Show ongoing</p>
     </article>
     <section class="todosForDatesContainer">
-      <article v-for="date in sortedList" :key="date" class="dateTracker">
+      <article v-for="td in todosOnDate" :key="td.date" class="dateTracker">
         <div class="dates">
-          <p>{{ date }}</p>
+          <p>{{ td.date }}</p>
         </div>
 
         <article class="todosWrapper">
-          <div v-for="todo in todoList" :key="todo.id">
-            <div v-if="todo.needToBeDoneAt === date" class="todo">
-              <div class="title">
-                <p>{{ todo.title }}</p>
-              </div>
-              <div class="checkIcon">
-                <i class="fa-solid fa-check"></i>
-              </div>
+          <div v-for="todo in td.todos" :key="todo.id" class="todo">
+            <div class="title">
+              <p>{{ todo.title }}</p>
+            </div>
+            <div class="checkIcon">
+              <i class="fa-solid fa-check"></i>
             </div>
           </div>
         </article>
@@ -47,40 +45,39 @@ export default defineComponent({
   setup() {
     const { todoList, fetchForTodos } = getTodos();
     const sortedList = ref<string[]>([]);
+    const todosOnDate = ref<ITodoOnDate[]>([]);
 
     fetchForTodos();
 
+    const matchTodoToDate = () => {
+      sortedList.value.forEach((date) => {
+        const obj: ITodoOnDate = {
+          date: date,
+          todos: [],
+        };
+
+        todoList.value.forEach((todo) => {
+          if (todo.date === obj.date) {
+            obj.todos.push(todo);
+          }
+        });
+        todosOnDate.value.push(obj);
+      });
+    };
+
     watchEffect(() => {
       todoList.value.forEach((todo) => {
-        let date = todo.needToBeDoneAt;
+        let date = todo.date;
         if (sortedList.value.includes(date) === false) {
           sortedList.value.push(date);
         }
       });
-    });
-
-    onUpdated(() => {
       matchTodoToDate();
     });
 
-    const test: ITodoOnDate[] = [];
-    const matchTodoToDate = () => {
-      const obj: ITodoOnDate = {
-        date: "",
-        todos: [],
-      };
+    console.log(todosOnDate.value);
 
-      sortedList.value.forEach((date) => {
-        /*  if(test.includes(date)){
-
-      } */
-      });
-    };
-
-    //console.log("datummm", sortedList);
-    console.log("todos", todoList);
-
-    return { todoList, sortedList };
+    return { todosOnDate };
   },
 });
 </script>
@@ -139,13 +136,13 @@ export default defineComponent({
       width: 80%;
 
       .dates {
-        color: rgba(#7fa99b, 0.8);
-        padding-left: 10px;
+        color: rgba($lightGreen, 0.8);
         border-right: 1px solid $darkGreen;
-        padding-right: 15px;
         text-shadow: 2px 6px 4px black;
         font-size: 14pt;
         font-weight: bolder;
+
+        padding: 20px;
 
         p {
           margin: 0;
@@ -154,9 +151,10 @@ export default defineComponent({
       .todosWrapper {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
         width: 200px;
-        padding-top: 20px;
+        padding-top: 60px;
+        padding-bottom: 40px;
 
         .todo {
           cursor: pointer;
@@ -167,12 +165,8 @@ export default defineComponent({
           width: 100%;
           height: 30px;
           color: black;
-          /*  background-color: rgba(#113f67, 0.7);
-          border: 1px solid#a2a8d3; */
-          /*   background-color: rgba(#113f67, 0.7);
-          border: 1px solid#430f58; */
-          background-color: rgba(#7fa99b, 0.8);
-          border: 1px solid #155263;
+          background-color: rgba($lightGreen, 0.8);
+          border: 1px solid $darkGreen;
           border-radius: 10px;
           font-size: 13pt;
           box-shadow: 10px 10px 10px black;
@@ -182,7 +176,6 @@ export default defineComponent({
           }
 
           .fa-check {
-            /*  color: #236969; */
             color: $darkGreen;
           }
         }

@@ -1,6 +1,6 @@
 export interface ITodo {
   id: string;
   title: string;
-  needToBeDoneAt: string;
+  date: string;
   isDone: boolean;
 }
