@@ -1,5 +1,5 @@
 <template>
-  <section class="todosContainer">
+  <section v-if="todosOnDate.length" class="todosContainer">
     <article class="sortTodos">
       <p class="sortLinks">Show all</p>
       <p class="sortLinks">Show done</p>
@@ -23,6 +23,12 @@
         </article>
       </article>
     </section>
+  </section>
+  <section v-else class="noTodosContainer">
+    <p>You have nothing to do !</p>
+    <router-link class="newTodoLink" :to="{ name: 'newTodo' }"
+      >Create Todo</router-link
+    >
   </section>
 </template>
 
@@ -85,6 +91,29 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "styles/_variables.scss";
 @import "styles/_mixins.scss";
+
+.noTodosContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px;
+
+  p,
+  .newTodoLink {
+    font-size: 17pt;
+    font-weight: bolder;
+    color: $smallHeaderColor;
+    text-shadow: 1px 15px 3px black;
+  }
+  .newTodoLink {
+    text-shadow: none;
+    text-decoration: none;
+    &:hover {
+      border-bottom: 1px solid $smallHeaderColor;
+    }
+  }
+}
 
 .todosContainer {
   display: flex;

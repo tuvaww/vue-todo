@@ -10,7 +10,7 @@ module.exports = class Todo {
 
   save() {
     return db.execute(
-      "INSERT INTO todoList.todo(title, date, isDone) VALUES (?,?,?)",
+      "INSERT INTO todos( title, date, isDone) VALUES (?,?,?)",
       [this.title, this.date, this.isDone]
     );
   }

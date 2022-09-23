@@ -1,14 +1,12 @@
 import { ITodo } from "@/models/ITodo";
 import { ref } from "vue";
 
-const url = "http://localhost:3000/";
-
 export const getTodos = () => {
   const todoList = ref<ITodo[]>([]);
 
   const fetchForTodos = async () => {
     try {
-      const res = await fetch(url);
+      const res = await fetch("http://localhost:3000/");
       if (!res.ok) {
         throw Error("no data availble");
       }
@@ -25,7 +23,9 @@ export const getTodos = () => {
 };
 
 export const setTodo = async (t: ITodo) => {
-  await fetch(url, {
+  console.log(t);
+
+  await fetch("http://localhost:3000/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

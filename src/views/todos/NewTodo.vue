@@ -7,7 +7,7 @@
       </div>
       <div class="separate">
         <label for="needToBeDoneAt">When should this be done ?</label>
-        <input v-model="needToBeDoneAt" id="needToBeDoneAt" type="date" />
+        <input v-model="date" id="needToBeDoneAt" type="date" />
       </div>
       <button>Create</button>
     </form>
@@ -15,18 +15,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "@vue/runtime-core";
+import { defineComponent, ref } from "@vue/runtime-core";
 import { setTodo } from "../../composables/todoCRUD";
 import { ITodo } from "../../models/ITodo";
 export default defineComponent({
   setup() {
     const title = ref("");
-    const needToBeDoneAt = ref("");
-    let id = "";
+    const date = ref("");
+    //let id = "";
 
-    const uid = function () {
+    /* const uid = function () {
       id = Date.now().toString(36) + Math.random().toString(36).substr(2);
-    };
+    }; */
 
     const translateDate = (d: string) => {
       let newDate = new Date(d);
@@ -35,12 +35,11 @@ export default defineComponent({
         day: "2-digit",
       });
 
-      console.log("translate", translateDate);
       return translateDate;
     };
 
     const handleSubmit = () => {
-      uid();
+      // uid();
       const createdTodo: ITodo = {
         id: "",
         title: "",
@@ -49,15 +48,12 @@ export default defineComponent({
       };
 
       createdTodo.title = title.value;
-      // createdTodo.needToBeDoneAt = needToBeDoneAt.value;
-      createdTodo.id = id;
-      createdTodo.date = translateDate(needToBeDoneAt.value);
-      console.log("created", createdTodo);
+      createdTodo.date = translateDate(date.value);
 
       setTodo(createdTodo);
     };
 
-    return { title, needToBeDoneAt, handleSubmit };
+    return { title, date, handleSubmit };
   },
 });
 </script>

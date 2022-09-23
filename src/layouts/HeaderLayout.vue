@@ -1,7 +1,5 @@
 <template>
   <nav>
-    <!--     <div class="planetContainer"></div>
- -->
     <router-link class="navLink" to="/">Home</router-link>
     <router-link class="navLink" :to="{ name: 'newTodo' }"
       >New Todo</router-link
