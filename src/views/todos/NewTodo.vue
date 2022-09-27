@@ -3,11 +3,22 @@
     <form class="todoForm" @submit.prevent="handleSubmit">
       <div class="separate">
         <label for="title">Title:</label>
-        <input v-model="title" id="title" type="text" />
+        <input v-model="title" id="title" type="text" placeholder="Titel..." />
       </div>
       <div class="separate">
-        <label for="needToBeDoneAt">When should this be done ?</label>
+        <label for="needToBeDoneAt">Set a date:</label>
         <input v-model="date" id="needToBeDoneAt" type="date" />
+      </div>
+      <div class="separate">
+        <label for="desc">Add a description:</label>
+        <textarea
+          v-model="desc"
+          name="test"
+          id="desc"
+          cols="30"
+          rows="10"
+          placeholder="Max 300 characters"
+        ></textarea>
       </div>
       <button>Create</button>
     </form>
@@ -22,11 +33,7 @@ export default defineComponent({
   setup() {
     const title = ref("");
     const date = ref("");
-    //let id = "";
-
-    /* const uid = function () {
-      id = Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }; */
+    const desc = ref("");
 
     const translateDate = (d: string) => {
       let newDate = new Date(d);
@@ -39,21 +46,22 @@ export default defineComponent({
     };
 
     const handleSubmit = () => {
-      // uid();
       const createdTodo: ITodo = {
         id: "",
         title: "",
         date: "",
         isDone: false,
+        description: "",
       };
 
       createdTodo.title = title.value;
       createdTodo.date = translateDate(date.value);
+      createdTodo.description = desc.value;
 
       setTodo(createdTodo);
     };
 
-    return { title, date, handleSubmit };
+    return { title, date, desc, handleSubmit };
   },
 });
 </script>
@@ -61,7 +69,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .formContainer {
   width: 100%;
-  height: 30%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -80,12 +87,20 @@ export default defineComponent({
       flex-direction: column;
       gap: 3px;
 
-      input {
+      input,
+      textarea {
         color: white;
         border-radius: 10px;
         height: 20px;
         background-color: rgba(#a2a8d3, 0.7);
         border: 1px solid #113f67;
+      }
+      ::placeholder {
+        color: white;
+        opacity: 1;
+      }
+      textarea {
+        height: 200px;
       }
     }
     button {

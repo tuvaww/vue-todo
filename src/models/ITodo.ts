@@ -3,4 +3,5 @@ export interface ITodo {
   title: string;
   date: string;
   isDone: boolean;
+  description: string;
 }

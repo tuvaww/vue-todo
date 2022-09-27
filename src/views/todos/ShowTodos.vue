@@ -1,4 +1,7 @@
 <template>
+  <section v-if="showModal">
+    <DetailsModal />
+  </section>
   <section v-if="todosOnDate.length" class="todosContainer">
     <article class="sortTodos">
       <p class="sortLinks">Show all</p>
@@ -6,7 +9,12 @@
       <p class="sortLinks">Show ongoing</p>
     </article>
     <section class="todosForDatesContainer">
-      <article v-for="td in todosOnDate" :key="td.date" class="dateTracker">
+      <article
+        @click="handleModal"
+        v-for="td in todosOnDate"
+        :key="td.date"
+        class="dateTracker"
+      >
         <div class="dates">
           <p>{{ td.date }}</p>
         </div>
@@ -34,24 +42,24 @@
 
 <script lang="ts">
 import { ITodo } from "@/models/ITodo";
-import {
-  defineComponent,
-  onMounted,
-  onUpdated,
-  watchEffect,
-} from "@vue/runtime-core";
+import { defineComponent, watchEffect } from "@vue/runtime-core";
 import { ref } from "vue";
 import { getTodos } from "../../composables/todoCRUD";
-
+import DetailsModal from "../../components/DetailsModal.vue";
 interface ITodoOnDate {
   date: string;
   todos: ITodo[];
 }
 export default defineComponent({
+  components: {
+    DetailsModal,
+  },
+
   setup() {
     const { todoList, fetchForTodos } = getTodos();
     const sortedList = ref<string[]>([]);
     const todosOnDate = ref<ITodoOnDate[]>([]);
+    const showModal = ref(false);
 
     fetchForTodos();
 
@@ -81,9 +89,10 @@ export default defineComponent({
       matchTodoToDate();
     });
 
-    console.log(todosOnDate.value);
-
-    return { todosOnDate };
+    const handleModal = () => {
+      showModal.value = true;
+    };
+    return { todosOnDate, showModal, handleModal };
   },
 });
 </script>

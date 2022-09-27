@@ -15,8 +15,9 @@ exports.postTodos = (req, res) => {
   const title = req.body.title;
   const date = req.body.date;
   const isDone = req.body.isDone;
+  const desc = req.body.description;
 
-  const todo = new Todo(null, title, date, isDone);
+  const todo = new Todo(null, title, date, isDone, desc);
   todo
     .save()
     .then(() => {
